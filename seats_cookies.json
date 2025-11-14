@@ -1,0 +1,68 @@
+[
+    {
+        "domain": "hull.seats.cloud",
+        "expiry": 1794236325,
+        "httpOnly": false,
+        "name": "_new_interface",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "true"
+    },
+    {
+        "domain": "hull.seats.cloud",
+        "httpOnly": true,
+        "name": "FedAuth2",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "OWpEVnlQYzY4bURrQWwvTlZST2ZTY0V4eWp3ZUl3bXhhT1J0S2pUVEFuckxHQmRkTnVNT1doRWNVSFZoQUQ3S1UyMWRTQ2luSUNFZGplR0VEbFJRVmpIK2RUaFVaNUdLTHBjdlZML05LUW5RSFRSdDZTcSs1eXN5RE92Y2o1UG5UVFJxcXZ6VDBicGcxZ0NoeEJsSWtObHVwMU5YelMvVm83Q1N3dE5yYzI2TWVabEhDRzRyVmpaL21VM1dvQzd5bnQzSU1GeUNGTjM0QmxVMzVma0tURDQ3bU9Hb0R6K0hNVHZyUnczZVlpQWc9PC9Db29raWU+PC9TZWN1cml0eUNvbnRleHRUb2tlbj4="
+    },
+    {
+        "domain": "hull.seats.cloud",
+        "expiry": 1763133228,
+        "httpOnly": false,
+        "name": "_dd_s",
+        "path": "/",
+        "sameSite": "Strict",
+        "secure": false,
+        "value": "rum=2&id=3fe39dcb-7229-4960-941d-31447cf54ed1&created=1763132298581&expire=1763133225877"
+    },
+    {
+        "domain": "hull.seats.cloud",
+        "httpOnly": true,
+        "name": "FedAuth1",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "VDdUQ1ZCOEtKOEdCaWlQVjlwdzZjVXl5cVJ1QnpGT3BqcUtZVjF6ODV1Qi92eEtCNERQZGdRckxHVzBIcHdnQlRCZWpSaEFqYmpVMHBlWjJuVG5ZQURQZmxjbEdHbFQ1N21Jdml6bEVnSDhlTkpmRTFIaXFxbndtUnlmWTMvRFgzQUpldjlnbjY2K3VMRHFaM3pRd2lzQ1h4Yk9meEV5cmNsaGNSeVRIRVBidXdtalZteFRNTWlwTmJjZEFwNVdrbmZrRWl5UjRpVG51T0czRGVZYnk0ZlViUzRnOGtnMTNxL0w3WVVFWnhMd3RIdXhmNG43Wmhpc2kxU1dsbTczUU4ySC9IRkNSK3dteFhFZDl3aG05TnRMelA1Um0vcm9TU29RWmZyZGw2S25KQUlSV1NaWW0rc0I3VjRidlUrRzAycDl6a25ERnQ1alBmQ08wYngrdmRsNzhONEFXUEVCYWRucmRpQjFWaGs2MVpUV3pPQnZwN2tkTEhwbi9Td1k0MkJRdldNR1NCL2R5TE5QSGhsYW45MEtsaDZQT1JUMXovQWxnZGFvc2gvemNJMWQ5blB3TEI5bXpHd0c4U1RQMHYvR3dNWkdQc0hVbTB6NXJybVVMY241WThyNDBONGxjZ2JmeG5YV3gvNXpXb0ljTEJ0REdudVRGU292K2kzWktFK0doZEdOQUNXQm0yeHBDbjlFUkdmNC9NWG1NNm5UMGhYTGZtcldwSkdyMTl3cXdiUFQ1U3ZKVW1MRUtJckxWR3pDZE9qRDhDWnpJUzQ4S0kzUVlWQ2p5YjI5YjlHUTRKQm5uSHN3c2gva2dKMEVvdGY0WTJ0MkFQSjRWTHEyMFk2Z2FCajJQbUhZN29tK254dWRDN1F6TlZGWU9CVlFXaEdNRWlFYkFFRi8zcm9JK0o4bitXNGpGYnRyeFlDZHNZVkgyay91NmY2MDZ4R2xRcmlFVk9iWlNrTVRrYitCQmd4NHl2OFFmZWNMbXI5QTNjVE0xMXFSbzdXY1M5SHMza3dyUzVzLzg1V21nNFViYlRac1p3NVZOYmhISmRySERXVFhUMEdybUd1TXBSb0xROTRyeTNaVGw1UjFXbXdhM2s5cytzNnI2UlJiMGtuQ0hTNC9oRVd2a3NYcjhjZW5kQ2tmTFZoODVSb0FPbEpucmJaRllLUGFuVGRWK3lqRUdNNEVFc3lkaXhxMGhLV053WGh5aE1xVjAxL3E0OHV4Syt6RXNjYTdXS3dwOXo3WXdqdWNLYkZXdk00UEU5QW15SHp1U05RVjQxSXJpNFZkRVpYMGdBSmFzSTJ5L0VXdlFtdzVpTXhqdWsrc2g4NUlOcnQxOWV2VnV3K2pYQ2dsbmptUXlLZ1lDdXRGeDRheFpFYjlxSEI5R2R1MENFaDlNckNiTkt6eFVnNFFGU2NRTWI1dWdXK3FwWDR5bDg2dVdxcktVdXJIUnVRTXJ2aTkrYnlLSE56ZGtnbjFWeW11eU9UNWVWaHJWa256ZVE5U0o3VlkvZXZjc25xOE9pMUEzbnNvaWZBbVpXOHFXdnNHYTZEQmJHLzk0SlpnR05wUDFwWW9GN0FVRWRJa1Z0NWpSZ21kL0JxSnJ3VHd5Rk9XT2dNV01GdFh5bXB6TFZWUVRwa2JtL3dQM3hLR1hTVlNObGFBUElyYXN0MWM0Ky9sQWgzNnNta2ZOWFpjUWZYVXJIN2JWbzdieGxaKzRVcTBseXo0bFpuNVdDV3VIYkNzTXFBYjNweDN5VlVLTnJPYlZMUm1vUG14MDU0VGVObGo3OFRGU2xYYkdHdDhzNEtNSHpLNzllaUNhOUZzTGVQdytSWStUd1FlSkRVUGRqV21MYmxoZHZPQllrVGRZamcxTS9TajZMNkxmekhSZmxoQ0dtZmQrNTVmRGRjSkdSalVSQkZHaWhTV0kzc3RWOVVRQS9lb3k2OXIxMUJvYjhZc1E4QmFhRC81aDg5ZHRVUVJCbWlkZVNjY2tHMDBp"
+    },
+    {
+        "domain": "hull.seats.cloud",
+        "httpOnly": true,
+        "name": "FedAuth",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48U2VjdXJpdHlDb250ZXh0VG9rZW4gcDE6SWQ9Il84NjA5NzIxNS1kMjZiLTQ1NzMtOTIyZC02NDIwZmQyNTQ3NTktQjg4RDI0RDlCRTVCMTgyQjE5NzMwMzlDRUE5Qjk2MjkiIHhtbG5zOnAxPSJodHRwOi8vZG9jcy5vYXNpcy1vcGVuLm9yZy93c3MvMjAwNC8wMS9vYXNpcy0yMDA0MDEtd3NzLXdzc2VjdXJpdHktdXRpbGl0eS0xLjAueHNkIiB4bWxucz0iaHR0cDovL2RvY3Mub2FzaXMtb3Blbi5vcmcvd3Mtc3gvd3Mtc2VjdXJlY29udmVyc2F0aW9uLzIwMDUxMiI+PElkZW50aWZpZXI+dXJuOnV1aWQ6YmFhN2IwYTktMDI4OC00M2NlLWI2NGYtYzAyOTI0Njg2YWMzPC9JZGVudGlmaWVyPjxDb29raWUgeG1sbnM9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwNi8wNS9zZWN1cml0eSI+c0tFL1JyU2xGdFlFdVFJdUJZMzlGMTZJWTkvMmpZOHd3ZWQvVFM5Uktvd25HR3hSbHhXSUtYRDNBMDZzeWVrd0dsVG1hQjJpZ3RHZUZpancvK1VUMFZXcGNPN1hjVGNnR3QwcGRMbG44ZjlZUG5ITnk0emd1Z0ZVMmlacnB1Ry9oem1Ib096TWtBUkd0U2UvR0ZJL1pzaXNHQUJaaVpwdEQrVmwwclZhZVJrRHp1Qy85VmE0UXcyREhqQ3NSWEZkbWxhNWt6S1VEbm93R2x0K0g0UzEzRFFNMWhad3FFZ01NWmc1OWRhaFM4RW1aTzMxbUI4VzZSd3RYK0dyMkxEVW1yMThNRVpFT1IvZEFmbDA3dnlkdDhJYXhRa1ZVMUVmMGRmZXQ2aVU2MFAxeWtJS0tqQjI0RXBURGJzQmlLZ0doQmRobEJzQksxM2E3WXorZkZPUFpsSTFSd2RsUllNZzZYOFNMU2lxSlpLRUFTdXh2Uml2YjdMSXJFaUZSSnBtdGJ5UFIwdWR0ZllxRStiQW41ZDlMWkwvaUIrWWdUYTJBOHFpSGRtbEtjcm1Ya2hOZW4vYmY2WmNqbTN4Q2ZSTXhOTXZnTVNieVVUSEtFeWdlSGhHS2pNcGpDcnNmNXRXUk5sV1FHSHk5eTVHVlU1akRuVjZ0TXhBeHR1dWZlblRnZnJtcWNuTGhtbEJ3bHJCcGlpU2ZVYk1xV0pxREM3Nk51NHhOSEYyUWJHcGM5QXFhYjQzeG16anBSczlwQlV6UTZOTWx5Q0hpT2FSbytZT1I3NHpEdDFZK3Y3WlJGbHNqMSs3M1hnOXdCY2R3WFVGdGJQYWdWNjE5OUk3Wk9ubjhUTlQ4WkFLWDE1MzV1WWZyNitKSkJ0UHVNQkpLQi9kTWNhcmFjZlBLbnhKSkpZcjRkNjNBUVVnT0xodUpQN1lCMmlRL3o2SFNNbVdnUXJybDhhdUFqL1pmNndYY3huZDlydGRibjV3VWUrT3hzSlB3eDloNjhsUkIzU0VkWnAyUnNOOXg4SDNDZjBIWHdtdnozbUN6c0t5YTB3NUJFSkVtbTR5TE9XUlNuUGJvMWhRKzVjRjJMb1ZRS3hzdFMzV0xKckkySXBSalpRMGlUVkJWVjh4MTVxQTNWbE1QZXZQM0tzSkZPSmNpOEpUc2dOcnFMVW8rTWZUOFU5M3ROWDVVZVFiQzl3TGVJUVJSS0ZKWmcxVU1mVHdxcUZCcjVPUTVqZEhLblhwdENzNUtoRXAyaTVNUnJwd0l4SnkrSnNrYnVUZ094dkNJbUhyNVlLb3JPUlVPN2RuNE8zdnorWkpKelZCVXMyWXdqZFRHaWpCc0NxUWx2NzFBUWNLNEdJcjQzUHM5dDNSeGJQUE1JQVNKQkMrZXpFalNRUnBLTS8rVUlL"
+    },
+    {
+        "domain": "hull.seats.cloud",
+        "httpOnly": false,
+        "name": "_cultureInfo",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "en-IE"
+    },
+    {
+        "domain": "hull.seats.cloud",
+        "expiry": 1778684325,
+        "httpOnly": false,
+        "name": "local_time",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "Greenwich%20Mean%20Time"
+    }
+]
