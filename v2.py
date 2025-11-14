@@ -1,107 +1,151 @@
 import time
-import json
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from collections import Counter
 
-def calculate_attendance(lectures):
-    """Calculates attendance statistics from a list of lecture statuses."""
-    total_lectures = len(lectures)
-    present = lectures.count("Present")
-    absent = lectures.count("Absent")
-    authorised_absent = lectures.count("Authorised Absent (Physical)") # Adjust as needed
+# --- 1. CONFIGURATION: UPDATE THESE VALUES ---
 
-    # Calculate attendance percentage
-    # Formula: (Present / (Total - Authorised)) * 100
-    effective_total = total_lectures - authorised_absent
-    if effective_total > 0:
-        attendance_percentage = (present / effective_total) * 100
-    else:
-        attendance_percentage = 100.0
+# --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+# The URL for the SEAtS login page
+LOGIN_URL = "https://your-seats-login-url.com"
 
-    # Print the stats
-    print("--- Attendance Statistics ---")
-    print(f"Total Lectures Recorded: {total_lectures}")
-    print(f"Present: {present}")
-    print(f"Absent: {absent}")
-    print(f"Authorised Absences: {authorised_absent}")
-    print(f"Overall Attendance Percentage: {attendance_percentage:.2f}%")
+# The URL of the page that shows your attendance (after you've logged in)
+ATTENDANCE_PAGE_URL = "https://your-seats-url.com/angular/attendance"
 
-def seats_attendance_scraper():
+# --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+
+def scrape_seats_attendance():
     """
-    Scrapes attendance data from the SEAtS portal.
+    Opens browser, asks user to log in manually, then scrapes attendance.
     """
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-    wait = WebDriverWait(driver, 20)
+    print("--- SEAtS Attendance Scraper ---")
+    driver = webdriver.Chrome()
     
-    # Navigate to the login page
-    driver.get("https://hull.seats.cloud/angular/#/me") # Replace with the actual URL
-
-    # --- Authentication Handling ---
     try:
-        # Try to load cookies for automatic login
-        with open("seats_cookies.json", "r") as f:
-            cookies = json.load(f)
-            for cookie in cookies:
-                driver.add_cookie(cookie)
+        # --- 1. Manual Login ---
+        driver.get(LOGIN_URL)
+        print("\n" + "="*50)
+        print("A browser window has opened. Please log in to SEAtS manually.")
+        print("After you are successfully logged in and on the main dashboard,")
+        print("press Enter in this console window to continue...")
+        print("="*50)
         
-        # Refresh the page to apply cookies
-        driver.refresh()
+        # Pause the script and wait for the user to press Enter
+        input() 
         
-        # You might need to navigate to the attendance page directly here
-        # driver.get("YOUR_SEATS_ATTENDANCE_URL")
+        print("Login complete. Navigating to attendance page...")
 
-    except FileNotFoundError:
-        # If cookies file doesn't exist, handle manual login
-        print("Cookies not found. Please log in manually.")
-        # You would add a long wait here to allow the user to log in
-        input("After you have logged in, press Enter to continue...")
-
-        # Save cookies for future sessions
-        with open("seats_cookies.json", "w") as f:
-            json.dump(driver.get_cookies(), f)
-    
-    # --- Scraping the Attendance Data ---
-    print("Scraping attendance data...")
-    
-    lecture_statuses = []
-    
-    # Wait for the lecture cards to be present
-    wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "mat-card-content.grid-container")))
-    
-    # Find all the lecture entry cards
-    lecture_cards = driver.find_elements(By.CSS_SELECTOR, "mat-card-content.grid-container")
-    
-    for card in lecture_cards:
-        try:
-            # Extract the status text. This selector will need to be precise.
-            # Based on your HTML, it seems the status is within a div.
-            status_element = card.find_element(By.CSS_SELECTOR, "div[aria-label*='Item,']")
-            status_text = status_element.get_attribute('aria-label').split(',')[1].strip()
-
-            # Stop scraping if we reach the specified conditions
-            if "Scheduled Absence" in status_text or "IECT not enrolled" in status_text:
-                print("Reached the stopping point. Ending scrape.")
-                break
+        # --- 2. Navigate to Attendance Page ---
+        # This ensures we are on the correct page after you log in
+        driver.get(ATTENDANCE_PAGE_URL)
+        
+        # Wait for the lecture cards to be loaded.
+        # Based on your HTML, 'mat-card-content' is a good locator.
+        wait = WebDriverWait(driver, 30) # Wait up to 30 seconds
+        
+        # This locator finds ALL elements with the class 'mat-mdc-card-content'
+        card_locator = (By.CSS_SELECTOR, "mat-card-content.grid-container")
+        
+        print("Waiting for attendance cards to load...")
+        wait.until(EC.presence_of_element_located(card_locator))
+        print("Cards loaded. Starting scrape...")
+        
+        # Get all lecture cards
+        lecture_cards = driver.find_elements(*card_locator)
+        
+        all_lectures = []
+        
+        # --- 3. Scrape Data ---
+        for card in lecture_cards:
+            try:
+                # Get all text from the card
+                card_text = card.text
                 
-            lecture_statuses.append(status_text)
-            
-        except Exception as e:
-            # This can help debug if the structure of a card is different
-            print(f"Could not process a card: {e}")
+                # --- A. Check for your "Stop Condition" ---
+                if "Scheduled Absence" in card_text and "IECT not enrolled" in card_text:
+                    print("---")
+                    print("Reached 'Scheduled Absence' entry. Stopping scrape.")
+                    print(f"Stop Entry Details: {card_text.replace('\n', ' | ')}")
+                    print("---")
+                    break # Exit the loop
+                
+                # --- B. Parse the status ---
+                status = "Unknown"
+                
+                # We find the status by looking for the icon's class.
+                # This is an educated guess based on your 'Authorised' example.
+                # We look for an <i> tag with a class containing 'fa fa-'
+                icon = card.find_element(By.CSS_SELECTOR, "i[class*='fa fa-']")
+                icon_class = icon.get_attribute("class")
+                
+                # !!! IMPORTANT !!!
+                # You MUST inspect the HTML for "Present" and "Absent"
+                # to see what their icon classes are and update this logic.
+                if "present" in icon_class: # This is a guess!
+                    status = "Present"
+                elif "authorized-absent" in icon_class: # From your example
+                    status = "Authorized"
+                elif "absent" in icon_class: # This is a guess!
+                    status = "Absent"
+                else:
+                    # Fallback: check the text content if icon class is not found
+                    if "Present" in card_text:
+                        status = "Present"
+                    elif "Authorised" in card_text or "Authorized" in card_text:
+                        status = "Authorized"
+                    elif "Absent" in card_text:
+                        status = "Absent"
 
-    # Close the browser
-    driver.quit()
-    
-    # --- Calculate and Display Statistics ---
-    if lecture_statuses:
-        calculate_attendance(lecture_statuses)
-    else:
-        print("No lecture data was scraped.")
+                all_lectures.append(status)
+                
+            except Exception as e:
+                # This might catch cards that aren't lectures (e.g., headers)
+                print(f"Could not parse a card. Skipping. (This is common for non-lecture cards)")
+
+        
+        # --- 4. Calculate and Print Stats ---
+        if not all_lectures:
+            print("No lectures were found. Exiting.")
+            return
+
+        print("\n--- Scraping Complete. Calculating Stats... ---")
+        
+        stats = Counter(all_lectures)
+        
+        present_count = stats.get("Present", 0)
+        absent_count = stats.get("Absent", 0)
+        authorized_count = stats.get("Authorized", 0)
+        unknown_count = stats.get("Unknown", 0)
+        total_lectures = len(all_lectures)
+        
+        print(f"Total Entries Scraped: {total_lectures}")
+        print(f"  - Present:    {present_count}")
+        print(f"  - Absent:     {absent_count}")
+        print(f"  - Authorized: {authorized_count}")
+        print(f"  - Unknown:    {unknown_count}")
+
+        # Your formula: (Present / (Total - Authorized)) * 100
+        denominator = total_lectures - authorized_count
+        
+        if denominator > 0:
+            attendance_percentage = (present_count / denominator) * 100
+            print("---")
+            print(f"Total Attendance: {attendance_percentage:.2f}%")
+            print(f"(Calculated as: ({present_count} / ({total_lectures} - {authorized_count})) * 100)")
+        else:
+            print("---")
+            print("Could not calculate attendance (no valid lectures).")
+
+    except Exception as e:
+        print(f"An error occurred during scraping: {e}")
+    finally:
+        print("Scraping finished. Closing browser.")
+        driver.quit()
 
 
+# --- Main execution ---
 if __name__ == "__main__":
-    seats_attendance_scraper()
+    scrape_seats_attendance()
