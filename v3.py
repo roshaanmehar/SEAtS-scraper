@@ -141,37 +141,56 @@ class SEAtsScraper:
         # Wait for cards to load
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "mat-mdc-card-content"))
+                EC.presence_of_element_located((By.CSS_SELECTOR, ".mat-mdc-card-content.grid-container"))
             )
         except TimeoutException:
             print("✗ No attendance cards found")
             return []
-            
+        
+        print("Scrolling to load all content...")
         # Scroll to load all content
         last_height = self.driver.execute_script("return document.body.scrollHeight")
-        while True:
+        scroll_attempts = 0
+        max_attempts = 20
+        
+        while scroll_attempts < max_attempts:
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(2)
+            time.sleep(1.5)
             new_height = self.driver.execute_script("return document.body.scrollHeight")
+            
             if new_height == last_height:
                 break
-            last_height = new_height
             
+            last_height = new_height
+            scroll_attempts += 1
+            print(f"  Scrolling... (attempt {scroll_attempts})")
+        
+        print("✓ Page fully loaded\n")
+        
         # Find all attendance cards
-        cards = self.driver.find_elements(By.CLASS_NAME, "mat-mdc-card-content")
-        print(f"Found {len(cards)} attendance cards")
+        cards = self.driver.find_elements(By.CSS_SELECTOR, ".mat-mdc-card-content.grid-container")
+        print(f"Found {len(cards)} attendance cards\n")
         
         for i, card in enumerate(cards, 1):
-            # Check stop condition
+            # Check stop condition first
             if self.should_stop_scraping(card):
-                print(f"\n✓ Reached stop condition at card {i}")
+                print(f"\n✓ Stopped at card {i} - Stop condition met\n")
                 break
-                
+            
+            # Parse the card
             record = self.parse_attendance_card(card)
             if record:
                 self.attendance_records.append(record)
-                print(f"  [{i}] {record.get('status', 'Unknown')} - {record.get('date', 'No date')}")
+                status_emoji = {
+                    'Present': '✓',
+                    'Absent': '✗',
+                    'Authorised Absent': '○',
+                    'Unknown': '?'
+                }.get(record.get('status', 'Unknown'), '?')
                 
+                print(f"  [{i:3d}] {status_emoji} {record.get('status', 'Unknown'):20s} | {record.get('date', 'No date'):20s}")
+        
+        print(f"\n✓ Scraped {len(self.attendance_records)} records")
         return self.attendance_records
         
     def calculate_statistics(self):
@@ -230,29 +249,14 @@ class SEAtsScraper:
         print(f"(Present / (Total - Authorised) × 100)")
         print("="*50)
         
-    def run(self, force_reauth=False):
+    def run(self):
         """Main execution flow"""
         try:
             self.setup_driver()
             
-            # Try to load cookies if not forcing re-authentication
-            if not force_reauth and self.load_cookies():
-                print("Attempting to use saved session...")
-                self.driver.refresh()
-                time.sleep(3)
-                
-                # Check if still authenticated
-                if "login" in self.driver.current_url.lower():
-                    print("Session expired. Re-authenticating...")
-                    if not self.authenticate():
-                        return
-            else:
-                # Fresh authentication
-                if not self.authenticate():
-                    return
-                    
-            # Navigate to attendance page
-            self.navigate_to_attendance()
+            # Wait for manual authentication
+            if not self.wait_for_authentication():
+                return
             
             # Scrape attendance
             self.scrape_attendance()
@@ -262,6 +266,8 @@ class SEAtsScraper:
             
         except Exception as e:
             print(f"\n✗ Error: {e}")
+            import traceback
+            traceback.print_exc()
         finally:
             input("\nPress Enter to close the browser...")
             if self.driver:
@@ -274,7 +280,4 @@ if __name__ == "__main__":
     SEATS_URL = "https://your-university-seats-url.com/angular/"
     
     scraper = SEAtsScraper(SEATS_URL)
-    
-    # First run: force_reauth=True to authenticate
-    # Subsequent runs: force_reauth=False to use saved cookies
-    scraper.run(force_reauth=False)
+    scraper.run()
